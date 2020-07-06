@@ -10,8 +10,10 @@ module Anndb
       @stub = AnndbPb::DatasetManager::Stub.new(server_addr, :this_channel_is_insecure)
     end
 
-    def list(with_size: false)
-      @stub.list(AnndbPb::ListDatasetsRequest.new(with_size: with_size))
+    def list(with_size: false, &block)
+      @stub.list(AnndbPb::ListDatasetsRequest.new(with_size: with_size)).map { |proto|
+        Dataset.new(proto, @server_addr)
+      }
     end
 
     def get(id, with_size: false)
