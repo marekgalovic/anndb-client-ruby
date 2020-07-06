@@ -10,22 +10,22 @@ module Anndb
       @stub = AnndbPb::DatasetManager::Stub.new(server_addr, :this_channel_is_insecure)
     end
 
-    def list(with_size=false)
+    def list(with_size: false)
       @stub.list(AnndbPb::ListDatasetsRequest.new(with_size: with_size))
     end
 
-    def get(id, with_size=false)
-      @stub.get(AnndbPb::GetDatasetRequest.new(dataset_id: Anndb::Util.uuid_string_to_bytes(id), with_size: with_size))
+    def get(id, with_size: false)
+      proto = @stub.get(AnndbPb::GetDatasetRequest.new(dataset_id: Anndb::Util.uuid_string_to_bytes(id), with_size: with_size))
+      Dataset.new(proto, @server_addr)
     end
 
-    def create(dim, space, partition_count=1, replication_factor=3)
+    def create(dim:, space:, partition_count:, replication_factor:)
       proto = @stub.create(AnndbPb::Dataset.new(
         dimension: dim.to_i,
         space: space_sym_to_space_pb(space),
         partition_count: partition_count.to_i,
         replication_factor: replication_factor.to_i
       ))
-
       Dataset.new(proto, @server_addr)
     end
 
