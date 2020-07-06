@@ -17,6 +17,7 @@ module AnndbPb
       rpc :ListNodes, EmptyMessage, stream(Node)
       rpc :AddNode, Node, stream(Node)
       rpc :RemoveNode, Node, EmptyMessage
+      rpc :LoadInfo, EmptyMessage, NodeLoadInfo
     end
 
     Stub = Service.rpc_stub_class

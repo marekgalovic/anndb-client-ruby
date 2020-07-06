@@ -10,9 +10,21 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :id, :uint64, 1
       optional :address, :string, 2
     end
+    add_message "anndb_pb.NodeLoadInfo" do
+      optional :uptime, :uint64, 1
+      optional :cpu_load1, :double, 2
+      optional :cpu_load5, :double, 3
+      optional :cpu_load15, :double, 4
+      optional :mem_total, :uint64, 5
+      optional :mem_available, :uint64, 6
+      optional :mem_used, :uint64, 7
+      optional :mem_free, :uint64, 8
+      optional :mem_used_percent, :double, 9
+    end
   end
 end
 
 module AnndbPb
   Node = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("anndb_pb.Node").msgclass
+  NodeLoadInfo = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("anndb_pb.NodeLoadInfo").msgclass
 end

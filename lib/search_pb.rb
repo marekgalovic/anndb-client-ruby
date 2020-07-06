@@ -17,7 +17,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :k, :uint32, 4
     end
     add_message "anndb_pb.SearchResultItem" do
-      optional :id, :uint64, 1
+      optional :id, :bytes, 1
       map :metadata, :string, :string, 2
       optional :score, :float, 3
     end

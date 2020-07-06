@@ -6,24 +6,31 @@ require 'google/protobuf'
 require 'core_pb'
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("dataset.proto", :syntax => :proto3) do
+    add_message "anndb_pb.ListDatasetsRequest" do
+      optional :with_size, :bool, 1
+    end
+    add_message "anndb_pb.GetDatasetRequest" do
+      optional :dataset_id, :bytes, 1
+      optional :with_size, :bool, 2
+    end
     add_message "anndb_pb.InsertRequest" do
       optional :dataset_id, :bytes, 1
-      optional :id, :uint64, 2
+      optional :id, :bytes, 2
       repeated :value, :float, 3
       map :metadata, :string, :string, 4
     end
     add_message "anndb_pb.UpdateRequest" do
       optional :dataset_id, :bytes, 1
-      optional :id, :uint64, 2
+      optional :id, :bytes, 2
       repeated :value, :float, 3
       map :metadata, :string, :string, 4
     end
     add_message "anndb_pb.RemoveRequest" do
       optional :dataset_id, :bytes, 1
-      optional :id, :uint64, 2
+      optional :id, :bytes, 2
     end
     add_message "anndb_pb.BatchItem" do
-      optional :id, :uint64, 1
+      optional :id, :bytes, 1
       repeated :value, :float, 2
       map :metadata, :string, :string, 3
       optional :level, :int32, 4
@@ -38,7 +45,14 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       repeated :items, :message, 3, "anndb_pb.BatchItem"
     end
     add_message "anndb_pb.BatchResponse" do
-      map :errors, :uint64, :string, 1
+      map :errors, :string, :string, 1
+    end
+    add_message "anndb_pb.PartitionLenRequest" do
+      optional :dataset_id, :bytes, 1
+      optional :partition_id, :bytes, 2
+    end
+    add_message "anndb_pb.PartitionLenResponse" do
+      optional :len, :uint64, 1
     end
     add_message "anndb_pb.Dataset" do
       optional :id, :bytes, 1
@@ -47,6 +61,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :partition_count, :uint32, 4
       optional :replication_factor, :uint32, 5
       repeated :partitions, :message, 6, "anndb_pb.Partition"
+      optional :size, :uint64, 7
     end
     add_message "anndb_pb.Partition" do
       optional :id, :bytes, 1
@@ -66,7 +81,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     add_message "anndb_pb.PartitionChange" do
       optional :type, :enum, 1, "anndb_pb.PartitionChangeType"
       optional :notification_id, :bytes, 2
-      optional :id, :uint64, 3
+      optional :id, :bytes, 3
       repeated :value, :float, 4
       map :metadata, :string, :string, 5
       optional :level, :int32, 6
@@ -101,6 +116,8 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
 end
 
 module AnndbPb
+  ListDatasetsRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("anndb_pb.ListDatasetsRequest").msgclass
+  GetDatasetRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("anndb_pb.GetDatasetRequest").msgclass
   InsertRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("anndb_pb.InsertRequest").msgclass
   UpdateRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("anndb_pb.UpdateRequest").msgclass
   RemoveRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("anndb_pb.RemoveRequest").msgclass
@@ -108,6 +125,8 @@ module AnndbPb
   BatchRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("anndb_pb.BatchRequest").msgclass
   PartitionBatchRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("anndb_pb.PartitionBatchRequest").msgclass
   BatchResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("anndb_pb.BatchResponse").msgclass
+  PartitionLenRequest = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("anndb_pb.PartitionLenRequest").msgclass
+  PartitionLenResponse = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("anndb_pb.PartitionLenResponse").msgclass
   Dataset = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("anndb_pb.Dataset").msgclass
   Partition = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("anndb_pb.Partition").msgclass
   DatasetManagerChange = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("anndb_pb.DatasetManagerChange").msgclass

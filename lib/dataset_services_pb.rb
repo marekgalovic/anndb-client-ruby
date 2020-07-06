@@ -14,8 +14,8 @@ module AnndbPb
       self.unmarshal_class_method = :decode
       self.service_name = 'anndb_pb.DatasetManager'
 
-      rpc :List, EmptyMessage, stream(Dataset)
-      rpc :Get, UUIDRequest, Dataset
+      rpc :List, ListDatasetsRequest, stream(Dataset)
+      rpc :Get, GetDatasetRequest, Dataset
       rpc :Create, Dataset, Dataset
       rpc :Delete, UUIDRequest, EmptyMessage
     end
@@ -40,6 +40,7 @@ module AnndbPb
       rpc :PartitionBatchInsert, PartitionBatchRequest, BatchResponse
       rpc :PartitionBatchUpdate, PartitionBatchRequest, BatchResponse
       rpc :PartitionBatchRemove, PartitionBatchRequest, BatchResponse
+      rpc :PartitionLen, PartitionLenRequest, PartitionLenResponse
     end
 
     Stub = Service.rpc_stub_class
