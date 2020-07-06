@@ -12,6 +12,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  google-protobuf
   grpc
 
 BUNDLED WITH
