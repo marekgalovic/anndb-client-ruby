@@ -18,6 +18,7 @@ module AnndbPb
       rpc :Get, GetDatasetRequest, Dataset
       rpc :Create, Dataset, Dataset
       rpc :Delete, UUIDRequest, EmptyMessage
+      rpc :GetDatasetSize, GetDatasetRequest, DatasetSize
     end
 
     Stub = Service.rpc_stub_class
@@ -40,7 +41,7 @@ module AnndbPb
       rpc :PartitionBatchInsert, PartitionBatchRequest, BatchResponse
       rpc :PartitionBatchUpdate, PartitionBatchRequest, BatchResponse
       rpc :PartitionBatchRemove, PartitionBatchRequest, BatchResponse
-      rpc :PartitionLen, PartitionLenRequest, PartitionLenResponse
+      rpc :PartitionInfo, PartitionInfoRequest, PartitionInfoResponse
     end
 
     Stub = Service.rpc_stub_class

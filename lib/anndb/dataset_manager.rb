@@ -35,6 +35,11 @@ module Anndb
       @stub.delete(AnndbPb::UUIDRequest.new(id: Anndb::Util.uuid_string_to_bytes(id)))
     end
 
+    def get_size(id)
+      proto = @stub.get_dataset_size(AnndbPb::GetDatasetRequest.new(dataset_id: Anndb::Util.uuid_string_to_bytes(id)))
+      return { len: proto.len, bytes_size: proto.bytes_size }
+    end
+
     private
 
     def space_sym_to_space_pb(space)
